@@ -6,27 +6,30 @@ import { Student, StudentDocument } from './schemas/student.schema';
 @Injectable()
 export class StudentsService {
   constructor(
-    @InjectModel(Student.name) private studentModel: Model<StudentDocument>,
+    @InjectModel('students')
+    private studentModel: Model<StudentDocument>,
   ) {}
 
-  async create(data: Partial<Student>): Promise<Student> {
-    const student = new this.studentModel(data);
+  async create(students: Student): Promise<Student> {
+    const student = new this.studentModel(students);
     return student.save();
   }
 
-  async findAll(): Promise<Student[]> {
+  async getAll(): Promise<Student[]> {
     return this.studentModel.find().exec();
   }
 
-  async findOne(id: string): Promise<Student | null> {
+  async getById(id: string) {
     return this.studentModel.findById(id).exec();
   }
 
-  async update(id: string, data: Partial<Student>): Promise<Student | null> {
-    return this.studentModel.findByIdAndUpdate(id, data, { new: true }).exec();
+  async update(id: string, students: Partial<Student>) {
+    return await this.studentModel.findByIdAndUpdate(id, students, {
+      new: true,
+    });
   }
 
-  async delete(id: string): Promise<any> {
-    return this.studentModel.findByIdAndDelete(id).exec();
+  async delete(id: string) {
+    return await this.studentModel.findByIdAndDelete(id);
   }
 }
