@@ -1,17 +1,16 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
+import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
-import { EduStudentModule } from './edu-student/edu-student.module';
+import { StudentsModule } from './students/students.module';
 
 @Module({
   imports: [
+    ConfigModule.forRoot({ isGlobal: true }),
     MongooseModule.forRoot(
-      'mongodb+srv://dulmikaushalya02:3Va6PVRaygRRSHxO@cluster0.in13kj1.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0',
+      process.env.MONGODB_URI ||
+        'mongodb+srv://dulmikaushalya02:3Va6PVRaygRRSHxO@cluster0.in13kj1.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0',
     ),
-    EduStudentModule,
+    StudentsModule,
   ],
-  controllers: [AppController],
-  providers: [AppService],
 })
 export class AppModule {}
