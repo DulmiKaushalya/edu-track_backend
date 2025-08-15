@@ -6,11 +6,14 @@ import {
   Param,
   Put,
   Delete,
+  UseGuards,
 } from '@nestjs/common';
 import { StudentsService } from './students.service';
 import { Student } from './schemas/student.schema';
+import { AuthGuard } from '@nestjs/passport';
 
 @Controller('students')
+@UseGuards(AuthGuard('jwt'))
 export class StudentsController {
   constructor(private readonly studentsService: StudentsService) {}
 
