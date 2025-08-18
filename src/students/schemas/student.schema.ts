@@ -8,7 +8,7 @@ export class Student {
   @Prop({ required: true })
   name: string;
 
-  @Prop({ required: true })
+  @Prop({ required: true, unique: true })
   email: string;
 
   @Prop()
@@ -19,3 +19,4 @@ export class Student {
 }
 
 export const StudentSchema = SchemaFactory.createForClass(Student);
+StudentSchema.set('timestamps', true);
